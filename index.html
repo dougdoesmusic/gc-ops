@@ -313,6 +313,12 @@ textarea.input{height:auto;padding:8px 10px;}
 .task-del-x:hover{color:var(--err);border-color:var(--err);background:#fde8e8;}
 
 .pl-card-tags{display:flex;gap:4px;flex-wrap:wrap;align-items:center;margin-top:5px;}
+
+.pl-drill-row{display:flex;gap:6px;flex-wrap:wrap;}
+.pl-drill-btn{font-family:arial,sans-serif;font-size:12px;font-weight:700;padding:5px 12px;border:2px solid var(--bdr);background:white;color:var(--grey);cursor:pointer;text-transform:uppercase;letter-spacing:0.5px;}
+.pl-drill-btn:hover{border-color:var(--txt);color:var(--txt);}
+.pl-drill-btn.active{color:white;border-color:transparent;}
+.pl-drill-btn.pl-all{background:var(--txt);color:white;border-color:var(--txt);}
 </style>
 </head>
 <body>
@@ -351,17 +357,14 @@ textarea.input{height:auto;padding:8px 10px;}
     </div>
   </div>
 
-  <!-- TASKS GROUP -->
-  <div class="grp"><span class="grp-lbl">Tasks</span></div>
-
-  <!-- TASKS (today + active + wta + rest of week) -->
-  <div class="section collapsed" id="sec-today">
-    <div class="section-hdr" onclick="toggleSection(&#39;sec-today&#39;)">
+  <!-- TASKS -->
+  <div class="section" id="sec-today">
+    <div class="section-hdr" id="sec-today-hdr">
       <span class="section-title">Tasks</span>
       <div class="section-title-right"></div>
     </div>
-    <div class="section-body hidden">
-      <!-- ADD TASK (moved inside Tasks) -->
+    <div class="section-body" id="sec-today-body">
+      <!-- ADD TASK -->
       <div style="padding:12px 0 14px;border-bottom:2px solid var(--bdr);margin-bottom:12px;">
         <div style="font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#b1b4b6;margin-bottom:10px;">Add Task</div>
         <div class="form-row" style="margin-bottom:8px;">
@@ -379,13 +382,15 @@ textarea.input{height:auto;padding:8px 10px;}
           <button class="tag-btn" data-day="ongoing" data-sec="ongoing" onclick="selectTag(this)">Active</button>
           <button class="tag-btn" data-day="asneeded" data-sec="asneeded" onclick="selectTag(this)">WTA</button>
         </div>
-        <input class="input" id="nt-date" type="date" style="max-width:200px;font-size:14px;height:36px;">
+        <input class="input" id="nt-date" type="date" style="max-width:200px;">
       </div>
+      <!-- hidden render targets -->
       <div id="og-list" class="task-list" style="display:none;"></div>
       <div id="an-list" class="task-list" style="display:none;"></div>
       <div id="chips" style="display:none;"></div>
-      <div class="tabs" id="tabs"><button class="tab">MON</button><button class="tab">TUE</button><button class="tab">WED</button><button class="tab">THU</button><button class="tab">FRI</button><button class="tab">SAT</button><button class="tab today-tab active">SUN *</button></div>
-      <div id="day-panel"><div style="font-size: 18px; font-weight: 700; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 3px solid var(--ok); color: var(--ok);">TODAY'S TASKS</div><div class="day-box"><div class="day-box-hdr morning">Morning Tasks</div><div class="day-box-body task-list"><div class="task-item" data-tid="m1"><div class="task-row"><div class="task-chk"></div><div class="task-main"><span class="task-name">Balance Registers</span></div><span class="task-badge badge-daily">DAILY</span><div class="task-actions"><button class="task-action-btn" data-role="note" title="Note">✎</button><button class="task-action-btn" data-role="date" title="Set date">📅</button><button class="task-action-btn" data-role="del" title="Remove">✕</button></div></div><div style="display: none; padding: 8px 12px 10px; border-top: 1px solid var(--bdr); background: rgb(250, 250, 250);"><textarea placeholder="Add a note..." style="width: 100%; border: 2px solid var(--bdr); padding: 6px 8px; font-family: arial, sans-serif; font-size: 14px; resize: vertical; min-height: 50px;"></textarea></div><div style="display: none; padding: 8px 12px 10px; border-top: 1px solid var(--bdr); background: rgb(250, 250, 250); gap: 8px; align-items: center; flex-wrap: wrap;"><input type="date" style="border: 2px solid var(--txt); padding: 6px 10px; font-size: 15px; font-family: arial, sans-serif; max-width: 180px;"><button class="btn btn-secondary" style="font-size: 13px; padding: 5px 12px;">Set</button><button class="btn btn-secondary" style="font-size: 13px; padding: 5px 12px;">Clear</button></div></div><div class="task-item" data-tid="m2"><div class="task-row"><div class="task-chk"></div><div class="task-main"><span class="task-name">Ready to Rock</span></div><span class="task-badge badge-daily">DAILY</span><div class="task-actions"><button class="task-action-btn" data-role="note" title="Note">✎</button><button class="task-action-btn" data-role="date" title="Set date">📅</button><button class="task-action-btn" data-role="del" title="Remove">✕</button></div></div><div style="display: none; padding: 8px 12px 10px; border-top: 1px solid var(--bdr); background: rgb(250, 250, 250);"><textarea placeholder="Add a note..." style="width: 100%; border: 2px solid var(--bdr); padding: 6px 8px; font-family: arial, sans-serif; font-size: 14px; resize: vertical; min-height: 50px;"></textarea></div><div style="display: none; padding: 8px 12px 10px; border-top: 1px solid var(--bdr); background: rgb(250, 250, 250); gap: 8px; align-items: center; flex-wrap: wrap;"><input type="date" style="border: 2px solid var(--txt); padding: 6px 10px; font-size: 15px; font-family: arial, sans-serif; max-width: 180px;"><button class="btn btn-secondary" style="font-size: 13px; padding: 5px 12px;">Set</button><button class="btn btn-secondary" style="font-size: 13px; padding: 5px 12px;">Clear</button></div></div><div class="task-item" data-tid="m3"><div class="task-row"><div class="task-chk"></div><div class="task-main"><span class="task-name">Set Up Sales Cart</span></div><span class="task-badge badge-daily">DAILY</span><div class="task-actions"><button class="task-action-btn" data-role="note" title="Note">✎</button><button class="task-action-btn" data-role="date" title="Set date">📅</button><button class="task-action-btn" data-role="del" title="Remove">✕</button></div></div><div style="display: none; padding: 8px 12px 10px; border-top: 1px solid var(--bdr); background: rgb(250, 250, 250);"><textarea placeholder="Add a note..." style="width: 100%; border: 2px solid var(--bdr); padding: 6px 8px; font-family: arial, sans-serif; font-size: 14px; resize: vertical; min-height: 50px;"></textarea></div><div style="display: none; padding: 8px 12px 10px; border-top: 1px solid var(--bdr); background: rgb(250, 250, 250); gap: 8px; align-items: center; flex-wrap: wrap;"><input type="date" style="border: 2px solid var(--txt); padding: 6px 10px; font-size: 15px; font-family: arial, sans-serif; max-width: 180px;"><button class="btn btn-secondary" style="font-size: 13px; padding: 5px 12px;">Set</button><button class="btn btn-secondary" style="font-size: 13px; padding: 5px 12px;">Clear</button></div></div><div class="task-item" data-tid="m4"><div class="task-row"><div class="task-chk"></div><div class="task-main"><span class="task-name">Bust Out Guitars</span></div><span class="task-badge badge-daily">DAILY</span><div class="task-actions"><button class="task-action-btn" data-role="note" title="Note">✎</button><button class="task-action-btn" data-role="date" title="Set date">📅</button><button class="task-action-btn" data-role="del" title="Remove">✕</button></div></div><div style="display: none; padding: 8px 12px 10px; border-top: 1px solid var(--bdr); background: rgb(250, 250, 250);"><textarea placeholder="Add a note..." style="width: 100%; border: 2px solid var(--bdr); padding: 6px 8px; font-family: arial, sans-serif; font-size: 14px; resize: vertical; min-height: 50px;"></textarea></div><div style="display: none; padding: 8px 12px 10px; border-top: 1px solid var(--bdr); background: rgb(250, 250, 250); gap: 8px; align-items: center; flex-wrap: wrap;"><input type="date" style="border: 2px solid var(--txt); padding: 6px 10px; font-size: 15px; font-family: arial, sans-serif; max-width: 180px;"><button class="btn btn-secondary" style="font-size: 13px; padding: 5px 12px;">Set</button><button class="btn btn-secondary" style="font-size: 13px; padding: 5px 12px;">Clear</button></div></div><div class="task-item" data-tid="m5"><div class="task-row"><div class="task-chk"></div><div class="task-main"><span class="task-name">Daily Picklist</span></div><span class="task-badge badge-daily">DAILY</span><div class="task-actions"><button class="task-action-btn" data-role="note" title="Note">✎</button><button class="task-action-btn" data-role="date" title="Set date">📅</button><button class="task-action-btn" data-role="del" title="Remove">✕</button></div></div><div style="display: none; padding: 8px 12px 10px; border-top: 1px solid var(--bdr); background: rgb(250, 250, 250);"><textarea placeholder="Add a note..." style="width: 100%; border: 2px solid var(--bdr); padding: 6px 8px; font-family: arial, sans-serif; font-size: 14px; resize: vertical; min-height: 50px;"></textarea></div><div style="display: none; padding: 8px 12px 10px; border-top: 1px solid var(--bdr); background: rgb(250, 250, 250); gap: 8px; align-items: center; flex-wrap: wrap;"><input type="date" style="border: 2px solid var(--txt); padding: 6px 10px; font-size: 15px; font-family: arial, sans-serif; max-width: 180px;"><button class="btn btn-secondary" style="font-size: 13px; padding: 5px 12px;">Set</button><button class="btn btn-secondary" style="font-size: 13px; padding: 5px 12px;">Clear</button></div></div></div></div><div class="day-box"><div class="day-box-hdr pc">PC / Desk Tasks</div><div class="day-box-body task-list"><div class="task-item" data-tid="p1"><div class="task-row"><div class="task-chk"></div><div class="task-main"><span class="task-name">Check Email</span></div><span class="task-badge badge-daily">DAILY</span><div class="task-actions"><button class="task-action-btn" data-role="note" title="Note">✎</button><button class="task-action-btn" data-role="date" title="Set date">📅</button><button class="task-action-btn" data-role="del" title="Remove">✕</button></div></div><div style="display: none; padding: 8px 12px 10px; border-top: 1px solid var(--bdr); background: rgb(250, 250, 250);"><textarea placeholder="Add a note..." style="width: 100%; border: 2px solid var(--bdr); padding: 6px 8px; font-family: arial, sans-serif; font-size: 14px; resize: vertical; min-height: 50px;"></textarea></div><div style="display: none; padding: 8px 12px 10px; border-top: 1px solid var(--bdr); background: rgb(250, 250, 250); gap: 8px; align-items: center; flex-wrap: wrap;"><input type="date" style="border: 2px solid var(--txt); padding: 6px 10px; font-size: 15px; font-family: arial, sans-serif; max-width: 180px;"><button class="btn btn-secondary" style="font-size: 13px; padding: 5px 12px;">Set</button><button class="btn btn-secondary" style="font-size: 13px; padding: 5px 12px;">Clear</button></div></div><div class="task-item" data-tid="p2"><div class="task-row"><div class="task-chk"></div><div class="task-main"><span class="task-name">Check Setlist</span></div><span class="task-badge badge-daily">DAILY</span><div class="task-actions"><button class="task-action-btn" data-role="note" title="Note">✎</button><button class="task-action-btn" data-role="date" title="Set date">📅</button><button class="task-action-btn" data-role="del" title="Remove">✕</button></div></div><div style="display: none; padding: 8px 12px 10px; border-top: 1px solid var(--bdr); background: rgb(250, 250, 250);"><textarea placeholder="Add a note..." style="width: 100%; border: 2px solid var(--bdr); padding: 6px 8px; font-family: arial, sans-serif; font-size: 14px; resize: vertical; min-height: 50px;"></textarea></div><div style="display: none; padding: 8px 12px 10px; border-top: 1px solid var(--bdr); background: rgb(250, 250, 250); gap: 8px; align-items: center; flex-wrap: wrap;"><input type="date" style="border: 2px solid var(--txt); padding: 6px 10px; font-size: 15px; font-family: arial, sans-serif; max-width: 180px;"><button class="btn btn-secondary" style="font-size: 13px; padding: 5px 12px;">Set</button><button class="btn btn-secondary" style="font-size: 13px; padding: 5px 12px;">Clear</button></div></div><div class="task-item" data-tid="p3"><div class="task-row"><div class="task-chk"></div><div class="task-main"><span class="task-name">Check UVM for No Images</span></div><span class="task-badge badge-daily">DAILY</span><div class="task-actions"><button class="task-action-btn" data-role="note" title="Note">✎</button><button class="task-action-btn" data-role="date" title="Set date">📅</button><button class="task-action-btn" data-role="del" title="Remove">✕</button></div></div><div style="display: none; padding: 8px 12px 10px; border-top: 1px solid var(--bdr); background: rgb(250, 250, 250);"><textarea placeholder="Add a note..." style="width: 100%; border: 2px solid var(--bdr); padding: 6px 8px; font-family: arial, sans-serif; font-size: 14px; resize: vertical; min-height: 50px;"></textarea></div><div style="display: none; padding: 8px 12px 10px; border-top: 1px solid var(--bdr); background: rgb(250, 250, 250); gap: 8px; align-items: center; flex-wrap: wrap;"><input type="date" style="border: 2px solid var(--txt); padding: 6px 10px; font-size: 15px; font-family: arial, sans-serif; max-width: 180px;"><button class="btn btn-secondary" style="font-size: 13px; padding: 5px 12px;">Set</button><button class="btn btn-secondary" style="font-size: 13px; padding: 5px 12px;">Clear</button></div></div><div class="task-item" data-tid="p4"><div class="task-row"><div class="task-chk"></div><div class="task-main"><span class="task-name">Clear Status Return Report</span></div><span class="task-badge badge-daily">DAILY</span><div class="task-actions"><button class="task-action-btn" data-role="note" title="Note">✎</button><button class="task-action-btn" data-role="date" title="Set date">📅</button><button class="task-action-btn" data-role="del" title="Remove">✕</button></div></div><div style="display: none; padding: 8px 12px 10px; border-top: 1px solid var(--bdr); background: rgb(250, 250, 250);"><textarea placeholder="Add a note..." style="width: 100%; border: 2px solid var(--bdr); padding: 6px 8px; font-family: arial, sans-serif; font-size: 14px; resize: vertical; min-height: 50px;"></textarea></div><div style="display: none; padding: 8px 12px 10px; border-top: 1px solid var(--bdr); background: rgb(250, 250, 250); gap: 8px; align-items: center; flex-wrap: wrap;"><input type="date" style="border: 2px solid var(--txt); padding: 6px 10px; font-size: 15px; font-family: arial, sans-serif; max-width: 180px;"><button class="btn btn-secondary" style="font-size: 13px; padding: 5px 12px;">Set</button><button class="btn btn-secondary" style="font-size: 13px; padding: 5px 12px;">Clear</button></div></div><div class="task-item" data-tid="p5"><div class="task-row"><div class="task-chk"></div><div class="task-main"><span class="task-name">Check MOTOs &amp; Overdue Bag Deals</span></div><span class="task-badge badge-daily">DAILY</span><div class="task-actions"><button class="task-action-btn" data-role="note" title="Note">✎</button><button class="task-action-btn" data-role="date" title="Set date">📅</button><button class="task-action-btn" data-role="del" title="Remove">✕</button></div></div><div style="display: none; padding: 8px 12px 10px; border-top: 1px solid var(--bdr); background: rgb(250, 250, 250);"><textarea placeholder="Add a note..." style="width: 100%; border: 2px solid var(--bdr); padding: 6px 8px; font-family: arial, sans-serif; font-size: 14px; resize: vertical; min-height: 50px;"></textarea></div><div style="display: none; padding: 8px 12px 10px; border-top: 1px solid var(--bdr); background: rgb(250, 250, 250); gap: 8px; align-items: center; flex-wrap: wrap;"><input type="date" style="border: 2px solid var(--txt); padding: 6px 10px; font-size: 15px; font-family: arial, sans-serif; max-width: 180px;"><button class="btn btn-secondary" style="font-size: 13px; padding: 5px 12px;">Set</button><button class="btn btn-secondary" style="font-size: 13px; padding: 5px 12px;">Clear</button></div></div><div class="task-item" data-tid="p7"><div class="task-row"><div class="task-chk"></div><div class="task-main"><span class="task-name">Street Buy Forms</span></div><span class="task-badge badge-daily">DAILY</span><div class="task-actions"><button class="task-action-btn" data-role="note" title="Note">✎</button><button class="task-action-btn" data-role="date" title="Set date">📅</button><button class="task-action-btn" data-role="del" title="Remove">✕</button></div></div><div style="display: none; padding: 8px 12px 10px; border-top: 1px solid var(--bdr); background: rgb(250, 250, 250);"><textarea placeholder="Add a note..." style="width: 100%; border: 2px solid var(--bdr); padding: 6px 8px; font-family: arial, sans-serif; font-size: 14px; resize: vertical; min-height: 50px;"></textarea></div><div style="display: none; padding: 8px 12px 10px; border-top: 1px solid var(--bdr); background: rgb(250, 250, 250); gap: 8px; align-items: center; flex-wrap: wrap;"><input type="date" style="border: 2px solid var(--txt); padding: 6px 10px; font-size: 15px; font-family: arial, sans-serif; max-width: 180px;"><button class="btn btn-secondary" style="font-size: 13px; padding: 5px 12px;">Set</button><button class="btn btn-secondary" style="font-size: 13px; padding: 5px 12px;">Clear</button></div></div><div class="task-item" data-tid="p8"><div class="task-row"><div class="task-chk"></div><div class="task-main"><span class="task-name">Pick, Pack &amp; Ship Orders</span></div><span class="task-badge badge-daily">DAILY</span><div class="task-actions"><button class="task-action-btn" data-role="note" title="Note">✎</button><button class="task-action-btn" data-role="date" title="Set date">📅</button><button class="task-action-btn" data-role="del" title="Remove">✕</button></div></div><div style="display: none; padding: 8px 12px 10px; border-top: 1px solid var(--bdr); background: rgb(250, 250, 250);"><textarea placeholder="Add a note..." style="width: 100%; border: 2px solid var(--bdr); padding: 6px 8px; font-family: arial, sans-serif; font-size: 14px; resize: vertical; min-height: 50px;"></textarea></div><div style="display: none; padding: 8px 12px 10px; border-top: 1px solid var(--bdr); background: rgb(250, 250, 250); gap: 8px; align-items: center; flex-wrap: wrap;"><input type="date" style="border: 2px solid var(--txt); padding: 6px 10px; font-size: 15px; font-family: arial, sans-serif; max-width: 180px;"><button class="btn btn-secondary" style="font-size: 13px; padding: 5px 12px;">Set</button><button class="btn btn-secondary" style="font-size: 13px; padding: 5px 12px;">Clear</button></div></div></div></div><div class="day-box"><div class="day-box-hdr special">When Time Allows</div><div class="day-box-body task-list"><div class="task-item" data-tid="a1"><div class="task-row"><div class="task-chk"></div><div class="task-main"><span class="task-name">Shipping Station Label Printer</span><div style="margin-top:3px;"><span class="dl-pill dl-over">OVERDUE</span></div></div><span class="task-badge badge-asneeded">WTA</span><div class="task-actions"><button class="task-action-btn" data-role="note" title="Note">✎</button><button class="task-action-btn active-date" data-role="date" title="Set date">📅</button><button class="task-action-btn" data-role="del" title="Remove">✕</button></div></div><div style="display: none; padding: 8px 12px 10px; border-top: 1px solid var(--bdr); background: rgb(250, 250, 250);"><textarea placeholder="Add a note..." style="width: 100%; border: 2px solid var(--bdr); padding: 6px 8px; font-family: arial, sans-serif; font-size: 14px; resize: vertical; min-height: 50px;"></textarea></div><div style="display: flex; padding: 8px 12px 10px; border-top: 1px solid var(--bdr); background: rgb(250, 250, 250); gap: 8px; align-items: center; flex-wrap: wrap;"><input type="date" style="border: 2px solid var(--txt); padding: 6px 10px; font-size: 15px; font-family: arial, sans-serif; max-width: 180px;"><button class="btn btn-secondary" style="font-size: 13px; padding: 5px 12px;">Set</button><button class="btn btn-secondary" style="font-size: 13px; padding: 5px 12px;">Clear</button></div></div><div class="task-item" data-tid="a2"><div class="task-row"><div class="task-chk"></div><div class="task-main"><span class="task-name">Tom's Green Screen Printer</span><div style="margin-top:3px;"><span class="dl-pill dl-over">OVERDUE</span></div></div><span class="task-badge badge-asneeded">WTA</span><div class="task-actions"><button class="task-action-btn" data-role="note" title="Note">✎</button><button class="task-action-btn active-date" data-role="date" title="Set date">📅</button><button class="task-action-btn" data-role="del" title="Remove">✕</button></div></div><div style="display: none; padding: 8px 12px 10px; border-top: 1px solid var(--bdr); background: rgb(250, 250, 250);"><textarea placeholder="Add a note..." style="width: 100%; border: 2px solid var(--bdr); padding: 6px 8px; font-family: arial, sans-serif; font-size: 14px; resize: vertical; min-height: 50px;"></textarea></div><div style="display: flex; padding: 8px 12px 10px; border-top: 1px solid var(--bdr); background: rgb(250, 250, 250); gap: 8px; align-items: center; flex-wrap: wrap;"><input type="date" style="border: 2px solid var(--txt); padding: 6px 10px; font-size: 15px; font-family: arial, sans-serif; max-width: 180px;"><button class="btn btn-secondary" style="font-size: 13px; padding: 5px 12px;">Set</button><button class="btn btn-secondary" style="font-size: 13px; padding: 5px 12px;">Clear</button></div></div><div class="task-item" data-tid="a3"><div class="task-row"><div class="task-chk"></div><div class="task-main"><span class="task-name">Cage / Corral Computer Printer</span><div style="margin-top:3px;"><span class="dl-pill dl-over">OVERDUE</span></div></div><span class="task-badge badge-asneeded">WTA</span><div class="task-actions"><button class="task-action-btn" data-role="note" title="Note">✎</button><button class="task-action-btn active-date" data-role="date" title="Set date">📅</button><button class="task-action-btn" data-role="del" title="Remove">✕</button></div></div><div style="display: none; padding: 8px 12px 10px; border-top: 1px solid var(--bdr); background: rgb(250, 250, 250);"><textarea placeholder="Add a note..." style="width: 100%; border: 2px solid var(--bdr); padding: 6px 8px; font-family: arial, sans-serif; font-size: 14px; resize: vertical; min-height: 50px;"></textarea></div><div style="display: flex; padding: 8px 12px 10px; border-top: 1px solid var(--bdr); background: rgb(250, 250, 250); gap: 8px; align-items: center; flex-wrap: wrap;"><input type="date" style="border: 2px solid var(--txt); padding: 6px 10px; font-size: 15px; font-family: arial, sans-serif; max-width: 180px;"><button class="btn btn-secondary" style="font-size: 13px; padding: 5px 12px;">Set</button><button class="btn btn-secondary" style="font-size: 13px; padding: 5px 12px;">Clear</button></div></div><div class="task-item" data-tid="a5"><div class="task-row"><div class="task-chk"></div><div class="task-main"><span class="task-name">Organize Cable Section</span><div style="margin-top:3px;"><span class="dl-pill dl-over">OVERDUE</span></div></div><span class="task-badge badge-asneeded">WTA</span><div class="task-actions"><button class="task-action-btn" data-role="note" title="Note">✎</button><button class="task-action-btn active-date" data-role="date" title="Set date">📅</button><button class="task-action-btn" data-role="del" title="Remove">✕</button></div></div><div style="display: none; padding: 8px 12px 10px; border-top: 1px solid var(--bdr); background: rgb(250, 250, 250);"><textarea placeholder="Add a note..." style="width: 100%; border: 2px solid var(--bdr); padding: 6px 8px; font-family: arial, sans-serif; font-size: 14px; resize: vertical; min-height: 50px;"></textarea></div><div style="display: flex; padding: 8px 12px 10px; border-top: 1px solid var(--bdr); background: rgb(250, 250, 250); gap: 8px; align-items: center; flex-wrap: wrap;"><input type="date" style="border: 2px solid var(--txt); padding: 6px 10px; font-size: 15px; font-family: arial, sans-serif; max-width: 180px;"><button class="btn btn-secondary" style="font-size: 13px; padding: 5px 12px;">Set</button><button class="btn btn-secondary" style="font-size: 13px; padding: 5px 12px;">Clear</button></div></div><div class="task-item" data-tid="a6"><div class="task-row"><div class="task-chk"></div><div class="task-main"><span class="task-name">Finish Clearance Section</span><div style="margin-top:3px;"><span class="dl-pill dl-over">OVERDUE</span></div></div><span class="task-badge badge-asneeded">WTA</span><div class="task-actions"><button class="task-action-btn" data-role="note" title="Note">✎</button><button class="task-action-btn active-date" data-role="date" title="Set date">📅</button><button class="task-action-btn" data-role="del" title="Remove">✕</button></div></div><div style="display: none; padding: 8px 12px 10px; border-top: 1px solid var(--bdr); background: rgb(250, 250, 250);"><textarea placeholder="Add a note..." style="width: 100%; border: 2px solid var(--bdr); padding: 6px 8px; font-family: arial, sans-serif; font-size: 14px; resize: vertical; min-height: 50px;"></textarea></div><div style="display: flex; padding: 8px 12px 10px; border-top: 1px solid var(--bdr); background: rgb(250, 250, 250); gap: 8px; align-items: center; flex-wrap: wrap;"><input type="date" style="border: 2px solid var(--txt); padding: 6px 10px; font-size: 15px; font-family: arial, sans-serif; max-width: 180px;"><button class="btn btn-secondary" style="font-size: 13px; padding: 5px 12px;">Set</button><button class="btn btn-secondary" style="font-size: 13px; padding: 5px 12px;">Clear</button></div></div><div class="task-item" data-tid="a4"><div class="task-row"><div class="task-chk"></div><div class="task-main"><span class="task-name">Move Keyboard Section</span><div style="margin-top:3px;"><span class="dl-pill dl-ok">4d left</span></div></div><span class="task-badge badge-asneeded">WTA</span><div class="task-actions"><button class="task-action-btn" data-role="note" title="Note">✎</button><button class="task-action-btn active-date" data-role="date" title="Set date">📅</button><button class="task-action-btn" data-role="del" title="Remove">✕</button></div></div><div style="display: none; padding: 8px 12px 10px; border-top: 1px solid var(--bdr); background: rgb(250, 250, 250);"><textarea placeholder="Add a note..." style="width: 100%; border: 2px solid var(--bdr); padding: 6px 8px; font-family: arial, sans-serif; font-size: 14px; resize: vertical; min-height: 50px;"></textarea></div><div style="display: flex; padding: 8px 12px 10px; border-top: 1px solid var(--bdr); background: rgb(250, 250, 250); gap: 8px; align-items: center; flex-wrap: wrap;"><input type="date" style="border: 2px solid var(--txt); padding: 6px 10px; font-size: 15px; font-family: arial, sans-serif; max-width: 180px;"><button class="btn btn-secondary" style="font-size: 13px; padding: 5px 12px;">Set</button><button class="btn btn-secondary" style="font-size: 13px; padding: 5px 12px;">Clear</button></div></div></div></div><div class="day-box"><div class="day-box-hdr special" style="display: flex; justify-content: space-between; align-items: center; cursor: pointer; user-select: none;"><span>Rest of Week</span><span class="day-box-arrow" style="transform: rotate(-45deg);"></span></div><div class="day-box-body" style="display: none;"><div style="font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: rgba(255, 255, 255, 0.6); padding: 6px 12px 3px;">Monday</div><div class="task-list"><div class="task-item" data-tid="s1"><div class="task-row"><div class="task-chk"></div><div class="task-main"><span class="task-name">Manager Second Approvals</span></div><span class="task-badge badge-weekly">WEEKLY</span><div class="task-actions"><button class="task-action-btn" data-role="note" title="Note">✎</button><button class="task-action-btn" data-role="date" title="Set date">📅</button><button class="task-action-btn" data-role="del" title="Remove">✕</button></div></div><div style="display: none; padding: 8px 12px 10px; border-top: 1px solid var(--bdr); background: rgb(250, 250, 250);"><textarea placeholder="Add a note..." style="width: 100%; border: 2px solid var(--bdr); padding: 6px 8px; font-family: arial, sans-serif; font-size: 14px; resize: vertical; min-height: 50px;"></textarea></div><div style="display: none; padding: 8px 12px 10px; border-top: 1px solid var(--bdr); background: rgb(250, 250, 250); gap: 8px; align-items: center; flex-wrap: wrap;"><input type="date" style="border: 2px solid var(--txt); padding: 6px 10px; font-size: 15px; font-family: arial, sans-serif; max-width: 180px;"><button class="btn btn-secondary" style="font-size: 13px; padding: 5px 12px;">Set</button><button class="btn btn-secondary" style="font-size: 13px; padding: 5px 12px;">Clear</button></div></div><div class="task-item" data-tid="s2"><div class="task-row"><div class="task-chk"></div><div class="task-main"><span class="task-name">Paid Out Maintenance Check</span></div><span class="task-badge badge-weekly">WEEKLY</span><div class="task-actions"><button class="task-action-btn" data-role="note" title="Note">✎</button><button class="task-action-btn" data-role="date" title="Set date">📅</button><button class="task-action-btn" data-role="del" title="Remove">✕</button></div></div><div style="display: none; padding: 8px 12px 10px; border-top: 1px solid var(--bdr); background: rgb(250, 250, 250);"><textarea placeholder="Add a note..." style="width: 100%; border: 2px solid var(--bdr); padding: 6px 8px; font-family: arial, sans-serif; font-size: 14px; resize: vertical; min-height: 50px;"></textarea></div><div style="display: none; padding: 8px 12px 10px; border-top: 1px solid var(--bdr); background: rgb(250, 250, 250); gap: 8px; align-items: center; flex-wrap: wrap;"><input type="date" style="border: 2px solid var(--txt); padding: 6px 10px; font-size: 15px; font-family: arial, sans-serif; max-width: 180px;"><button class="btn btn-secondary" style="font-size: 13px; padding: 5px 12px;">Set</button><button class="btn btn-secondary" style="font-size: 13px; padding: 5px 12px;">Clear</button></div></div></div><div style="font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: rgba(255, 255, 255, 0.6); padding: 6px 12px 3px;">Wednesday</div><div class="task-list"><div class="task-item" data-tid="s3"><div class="task-row"><div class="task-chk"></div><div class="task-main"><span class="task-name">Print POPs</span></div><span class="task-badge badge-weekly">WEEKLY</span><div class="task-actions"><button class="task-action-btn" data-role="note" title="Note">✎</button><button class="task-action-btn" data-role="date" title="Set date">📅</button><button class="task-action-btn" data-role="del" title="Remove">✕</button></div></div><div style="display: none; padding: 8px 12px 10px; border-top: 1px solid var(--bdr); background: rgb(250, 250, 250);"><textarea placeholder="Add a note..." style="width: 100%; border: 2px solid var(--bdr); padding: 6px 8px; font-family: arial, sans-serif; font-size: 14px; resize: vertical; min-height: 50px;"></textarea></div><div style="display: none; padding: 8px 12px 10px; border-top: 1px solid var(--bdr); background: rgb(250, 250, 250); gap: 8px; align-items: center; flex-wrap: wrap;"><input type="date" style="border: 2px solid var(--txt); padding: 6px 10px; font-size: 15px; font-family: arial, sans-serif; max-width: 180px;"><button class="btn btn-secondary" style="font-size: 13px; padding: 5px 12px;">Set</button><button class="btn btn-secondary" style="font-size: 13px; padding: 5px 12px;">Clear</button></div></div><div class="task-item" data-tid="s4"><div class="task-row"><div class="task-chk"></div><div class="task-main"><span class="task-name">Pull List of POPs</span></div><span class="task-badge badge-weekly">WEEKLY</span><div class="task-actions"><button class="task-action-btn" data-role="note" title="Note">✎</button><button class="task-action-btn" data-role="date" title="Set date">📅</button><button class="task-action-btn" data-role="del" title="Remove">✕</button></div></div><div style="display: none; padding: 8px 12px 10px; border-top: 1px solid var(--bdr); background: rgb(250, 250, 250);"><textarea placeholder="Add a note..." style="width: 100%; border: 2px solid var(--bdr); padding: 6px 8px; font-family: arial, sans-serif; font-size: 14px; resize: vertical; min-height: 50px;"></textarea></div><div style="display: none; padding: 8px 12px 10px; border-top: 1px solid var(--bdr); background: rgb(250, 250, 250); gap: 8px; align-items: center; flex-wrap: wrap;"><input type="date" style="border: 2px solid var(--txt); padding: 6px 10px; font-size: 15px; font-family: arial, sans-serif; max-width: 180px;"><button class="btn btn-secondary" style="font-size: 13px; padding: 5px 12px;">Set</button><button class="btn btn-secondary" style="font-size: 13px; padding: 5px 12px;">Clear</button></div></div><div class="task-item" data-tid="s5"><div class="task-row"><div class="task-chk"></div><div class="task-main"><span class="task-name">Gold Cards / Planograms - Prep</span></div><span class="task-badge badge-weekly">WEEKLY</span><div class="task-actions"><button class="task-action-btn" data-role="note" title="Note">✎</button><button class="task-action-btn" data-role="date" title="Set date">📅</button><button class="task-action-btn" data-role="del" title="Remove">✕</button></div></div><div style="display: none; padding: 8px 12px 10px; border-top: 1px solid var(--bdr); background: rgb(250, 250, 250);"><textarea placeholder="Add a note..." style="width: 100%; border: 2px solid var(--bdr); padding: 6px 8px; font-family: arial, sans-serif; font-size: 14px; resize: vertical; min-height: 50px;"></textarea></div><div style="display: none; padding: 8px 12px 10px; border-top: 1px solid var(--bdr); background: rgb(250, 250, 250); gap: 8px; align-items: center; flex-wrap: wrap;"><input type="date" style="border: 2px solid var(--txt); padding: 6px 10px; font-size: 15px; font-family: arial, sans-serif; max-width: 180px;"><button class="btn btn-secondary" style="font-size: 13px; padding: 5px 12px;">Set</button><button class="btn btn-secondary" style="font-size: 13px; padding: 5px 12px;">Clear</button></div></div></div><div style="font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: rgba(255, 255, 255, 0.6); padding: 6px 12px 3px;">Thursday</div><div class="task-list"><div class="task-item" data-tid="s6"><div class="task-row"><div class="task-chk"></div><div class="task-main"><span class="task-name">Gold Cards / Planograms - Setup</span></div><span class="task-badge badge-weekly">WEEKLY</span><div class="task-actions"><button class="task-action-btn" data-role="note" title="Note">✎</button><button class="task-action-btn" data-role="date" title="Set date">📅</button><button class="task-action-btn" data-role="del" title="Remove">✕</button></div></div><div style="display: none; padding: 8px 12px 10px; border-top: 1px solid var(--bdr); background: rgb(250, 250, 250);"><textarea placeholder="Add a note..." style="width: 100%; border: 2px solid var(--bdr); padding: 6px 8px; font-family: arial, sans-serif; font-size: 14px; resize: vertical; min-height: 50px;"></textarea></div><div style="display: none; padding: 8px 12px 10px; border-top: 1px solid var(--bdr); background: rgb(250, 250, 250); gap: 8px; align-items: center; flex-wrap: wrap;"><input type="date" style="border: 2px solid var(--txt); padding: 6px 10px; font-size: 15px; font-family: arial, sans-serif; max-width: 180px;"><button class="btn btn-secondary" style="font-size: 13px; padding: 5px 12px;">Set</button><button class="btn btn-secondary" style="font-size: 13px; padding: 5px 12px;">Clear</button></div></div><div class="task-item" data-tid="s7"><div class="task-row"><div class="task-chk"></div><div class="task-main"><span class="task-name">Garda Armored Pickup</span></div><span class="task-badge badge-weekly">WEEKLY</span><div class="task-actions"><button class="task-action-btn" data-role="note" title="Note">✎</button><button class="task-action-btn" data-role="date" title="Set date">📅</button><button class="task-action-btn" data-role="del" title="Remove">✕</button></div></div><div style="display: none; padding: 8px 12px 10px; border-top: 1px solid var(--bdr); background: rgb(250, 250, 250);"><textarea placeholder="Add a note..." style="width: 100%; border: 2px solid var(--bdr); padding: 6px 8px; font-family: arial, sans-serif; font-size: 14px; resize: vertical; min-height: 50px;"></textarea></div><div style="display: none; padding: 8px 12px 10px; border-top: 1px solid var(--bdr); background: rgb(250, 250, 250); gap: 8px; align-items: center; flex-wrap: wrap;"><input type="date" style="border: 2px solid var(--txt); padding: 6px 10px; font-size: 15px; font-family: arial, sans-serif; max-width: 180px;"><button class="btn btn-secondary" style="font-size: 13px; padding: 5px 12px;">Set</button><button class="btn btn-secondary" style="font-size: 13px; padding: 5px 12px;">Clear</button></div></div></div><div style="font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: rgba(255, 255, 255, 0.6); padding: 6px 12px 3px;">Friday</div><div class="task-list"><div class="task-item" data-tid="f1"><div class="task-row"><div class="task-chk"></div><div class="task-main"><span class="task-name">Update Trackstar - Performance Reviews</span></div><span class="task-badge badge-weekly">WEEKLY</span><div class="task-actions"><button class="task-action-btn" data-role="note" title="Note">✎</button><button class="task-action-btn" data-role="date" title="Set date">📅</button><button class="task-action-btn" data-role="del" title="Remove">✕</button></div></div><div style="display: none; padding: 8px 12px 10px; border-top: 1px solid var(--bdr); background: rgb(250, 250, 250);"><textarea placeholder="Add a note..." style="width: 100%; border: 2px solid var(--bdr); padding: 6px 8px; font-family: arial, sans-serif; font-size: 14px; resize: vertical; min-height: 50px;"></textarea></div><div style="display: none; padding: 8px 12px 10px; border-top: 1px solid var(--bdr); background: rgb(250, 250, 250); gap: 8px; align-items: center; flex-wrap: wrap;"><input type="date" style="border: 2px solid var(--txt); padding: 6px 10px; font-size: 15px; font-family: arial, sans-serif; max-width: 180px;"><button class="btn btn-secondary" style="font-size: 13px; padding: 5px 12px;">Set</button><button class="btn btn-secondary" style="font-size: 13px; padding: 5px 12px;">Clear</button></div></div></div></div></div></div>
+      <!-- DAY TABS -->
+      <div class="tabs" id="tabs"></div>
+      <div id="day-panel"></div>
     </div>
   </div>
 
@@ -393,7 +398,7 @@ textarea.input{height:auto;padding:8px 10px;}
   <div class="grp"><span class="grp-lbl">Meetings</span></div>
 
   <div class="section collapsed" id="sec-mtg">
-    <div class="section-hdr" onclick="toggleSection(&#39;sec-mtg&#39;)">
+    <div class="section-hdr">
       <span class="section-title">Scheduled Meetings</span>
       <div class="section-title-right"></div>
     </div>
@@ -420,7 +425,7 @@ textarea.input{height:auto;padding:8px 10px;}
   <div class="grp"><span class="grp-lbl">Audits</span></div>
 
   <div class="section collapsed" id="sec-pop">
-    <div class="section-hdr" onclick="toggleSection(&#39;sec-pop&#39;)">
+    <div class="section-hdr">
       <span class="section-title">POP Audit</span>
       <div class="section-title-right">
         <span class="pop-prog-badge" id="pop-prog-badge">0/0</span>
@@ -437,22 +442,37 @@ textarea.input{height:auto;padding:8px 10px;}
   </div>
 
   <div class="section collapsed" id="sec-picklist">
-    <div class="section-hdr" onclick="toggleSection(&#39;sec-picklist&#39;)">
+    <div class="section-hdr">
       <span class="section-title">Case Picklist</span>
       <div class="section-title-right">
         <button class="reorder-btn" style="border-color:#16a085;color:#16a085;" onclick="event.stopPropagation();sharePicklist()">Share</button>
       </div>
     </div>
     <div class="section-body hidden">
+      <!-- STATS -->
       <div class="pl-stats">
         <div class="pl-stat"><span class="pl-stat-num blue" id="pl-total">0</span><div class="pl-stat-label">Total</div></div>
         <div class="pl-stat"><span class="pl-stat-num red" id="pl-rem">0</span><div class="pl-stat-label">To Find</div></div>
         <div class="pl-stat"><span class="pl-stat-num green" id="pl-fnd">0</span><div class="pl-stat-label">Found</div></div>
       </div>
+      <!-- SEARCH + ACTIONS -->
       <div class="pl-controls">
         <input class="pl-search" id="pl-search" placeholder="Search name, POS, brand..." oninput="plSearch()">
         <button class="btn btn-warning" id="pl-undo-btn" onclick="plUndo()" disabled="">Undo</button>
         <button class="btn btn-danger" onclick="plClear()">Reset</button>
+      </div>
+      <!-- DRILL-DOWN FILTERS -->
+      <div id="pl-drill" style="margin-bottom:12px;">
+        <div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--grey);margin-bottom:6px;">Step 1 — Guitar Type</div>
+        <div id="pl-step1" class="pl-drill-row"></div>
+        <div id="pl-step2-wrap" style="display:none;margin-top:8px;">
+          <div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--grey);margin-bottom:6px;">Step 2 — Product Type</div>
+          <div id="pl-step2" class="pl-drill-row"></div>
+        </div>
+        <div id="pl-step3-wrap" style="display:none;margin-top:8px;">
+          <div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--grey);margin-bottom:6px;">Step 3 — Brand</div>
+          <div id="pl-step3" class="pl-drill-row"></div>
+        </div>
       </div>
       <div id="pl-panel-content" style="display:none;"></div>
       <div id="pl-need-grid"></div>
@@ -467,7 +487,7 @@ textarea.input{height:auto;padding:8px 10px;}
   <div class="grp"><span class="grp-lbl">Operations</span></div>
 
   <div class="section collapsed" id="sec-sup">
-    <div class="section-hdr" onclick="toggleSection(&#39;sec-sup&#39;)">
+    <div class="section-hdr">
       <span class="section-title">Supply List</span>
       <div class="section-title-right"></div>
     </div>
@@ -483,7 +503,7 @@ textarea.input{height:auto;padding:8px 10px;}
   </div>
 
   <div class="section collapsed" id="sec-po">
-    <div class="section-hdr" onclick="toggleSection(&#39;sec-po&#39;)">
+    <div class="section-hdr">
       <span class="section-title">Paid Out Receipts</span>
       <div class="section-title-right">
         <span class="po-total-badge" id="po-total-badge"></span>
@@ -508,7 +528,7 @@ textarea.input{height:auto;padding:8px 10px;}
   <div class="grp"><span class="grp-lbl">Resources</span></div>
 
   <div class="section collapsed" id="sec-res">
-    <div class="section-hdr" onclick="toggleSection(&#39;sec-res&#39;)">
+    <div class="section-hdr">
       <span class="section-title">Resources</span>
       <div class="section-title-right"></div>
     </div>
@@ -532,7 +552,7 @@ textarea.input{height:auto;padding:8px 10px;}
   <div class="grp"><span class="grp-lbl">Activity Log</span></div>
 
   <div class="section collapsed" id="sec-log">
-    <div class="section-hdr" onclick="toggleSection(&#39;sec-log&#39;)">
+    <div class="section-hdr">
       <span class="section-title">Activity Log</span>
       <div class="section-title-right">
         <button class="reorder-btn" style="border-color:#34495e;color:#34495e;" onclick="event.stopPropagation();exportLog()">Export</button>
@@ -637,8 +657,35 @@ function fmt12(t){if(!t)return'';var p=t.split(':'),h=parseInt(p[0]),m=p[1];retu
 function get(id){return document.getElementById(id);}
 function showToast(msg,type){var t=document.createElement('div');t.style.cssText='position:fixed;bottom:24px;left:50%;transform:translateX(-50%);padding:10px 18px;font-size:14px;font-weight:700;z-index:999;border:3px solid;background:white;white-space:nowrap;';var c=type==='ok'?'var(--ok)':type==='err'?'var(--err)':'#c47b00';t.style.borderColor=c;t.style.color=c;t.textContent=msg;document.body.appendChild(t);setTimeout(function(){t.remove();},2800);}
 
-// SECTION TOGGLE
-function toggleSection(id){var sec=get(id);if(!sec)return;sec.classList.toggle('collapsed');var body=sec.querySelector('.section-body');if(body)body.classList.toggle('hidden');}
+// ── SECTION TOGGLE ──────────────────────────────────────────────────────
+function toggleSection(id){
+  var sec=get(id);if(!sec)return;
+  var body=sec.querySelector('.section-body');if(!body)return;
+  var open=body.style.display==='block';
+  body.style.display=open?'none':'block';
+  sec.classList.toggle('collapsed',open);
+}
+document.addEventListener('DOMContentLoaded',function(){
+  document.querySelectorAll('.section').forEach(function(sec){
+    var id=sec.id;
+    var hdr=sec.querySelector('.section-hdr');
+    var body=sec.querySelector('.section-body');
+    if(!hdr||!body)return;
+    // Tasks open, everything else closed
+    if(id==='sec-today'){
+      body.style.display='block';
+      sec.classList.remove('collapsed');
+    } else {
+      body.style.display='none';
+      sec.classList.add('collapsed');
+    }
+    hdr.addEventListener('click',function(e){
+      if(e.target.tagName==='BUTTON'||e.target.closest('button'))return;
+      if(e.target.closest('.section-body'))return;
+      toggleSection(id);
+    });
+  });
+});
 
 // CLOCK
 function tick(){var n=new Date(),h=n.getHours(),m=n.getMinutes();get('clock').textContent=n.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});var _td=get('today-date');if(_td)_td.textContent=n.toLocaleDateString([],{month:'short',day:'numeric'}).toUpperCase();get('daypill').textContent=DAY[n.getDay()].toUpperCase();var tot=h*60+m,op=660,cl=1260,st=get('store-status');if(tot>=op&&tot<cl){var left=cl-tot;st.className='s-open';st.textContent=left<=60?'CLOSING IN '+left+'M':'OPEN';}else if(tot>=cl){st.className='s-closed';st.textContent='CLOSED';}else{var toOp=op-tot;st.className=toOp<=60?'s-soon':'s-closed';st.textContent=toOp<=60?'OPENS IN '+toOp+'M':'CLOSED';}}
@@ -729,11 +776,11 @@ function mkTask(t,badgeCls,badgeLbl){
   datePanel.appendChild(di);datePanel.appendChild(setBtn);datePanel.appendChild(clrBtn);
   // Row events - use event delegation on row
   row.addEventListener('click',function(e){
+    e.stopPropagation();
     var role=e.target.getAttribute('data-role')||( e.target.closest('[data-role]') && e.target.closest('[data-role]').getAttribute('data-role'));
-    if(role==='del'){e.stopPropagation();removeTask(t.id);return;}
-    if(role==='note'){e.stopPropagation();var o=notePanel.style.display==='none';notePanel.style.display=o?'block':'none';if(o)ta.focus();return;}
-    if(role==='date'){e.stopPropagation();var o2=datePanel.style.display==='none'||datePanel.style.display==='';datePanel.style.display=o2?'flex':'none';return;}
-    if(e.target.closest('.task-actions'))return;
+    if(role==='del'){removeTask(t.id);return;}
+    if(role==='note'){var o=notePanel.style.display==='none';notePanel.style.display=o?'block':'none';if(o)ta.focus();return;}
+    if(role==='date'){var o2=datePanel.style.display==='none'||datePanel.style.display==='';datePanel.style.display=o2?'flex':'none';return;}
     toggleTask(t.id);
   });
   wrap.appendChild(row);wrap.appendChild(notePanel);wrap.appendChild(datePanel);
@@ -759,7 +806,27 @@ function renderDay(){
   var pc=tasks.filter(function(t){return(t.day==='all'||t.day===adStr)&&t.sec==='pc';});
   var special=tasks.filter(function(t){return t.day===adStr&&t.sec==='special';});
   // today header removed
-  function addBox(lbl,cls,arr,bc,bl){if(!arr.length)return;var box=document.createElement('div');box.className='day-box';var hdr=document.createElement('div');hdr.className='day-box-hdr '+cls;hdr.style.cssText='display:flex;justify-content:space-between;align-items:center;cursor:pointer;user-select:none;';var arrow=document.createElement('span');arrow.className='day-box-arrow';arrow.style.transform='rotate(-45deg)';hdr.innerHTML='<span>'+lbl+'</span>';hdr.appendChild(arrow);var body=document.createElement('div');body.className='day-box-body task-list';body.style.display='none';hdr.addEventListener('click',function(){var h=body.style.display==='none';body.style.display=h?'block':'none';arrow.style.transform=h?'rotate(45deg)':'rotate(-45deg)';});arr.forEach(function(t){body.appendChild(mkTask(t,bc,bl));});box.appendChild(hdr);box.appendChild(body);panel.appendChild(box);}
+function addBox(lbl,cls,arr,bc,bl){
+  if(!arr.length)return;
+  // Default open unless user has explicitly closed it
+  var isOpen=dayBoxOpen[lbl]===true;
+  var box=document.createElement('div');box.className='day-box';
+  var hdr=document.createElement('div');hdr.className='day-box-hdr '+cls;
+  hdr.style.cssText='display:flex;justify-content:space-between;align-items:center;cursor:pointer;user-select:none;';
+  var arrow=document.createElement('span');arrow.className='day-box-arrow';
+  arrow.style.transform=isOpen?'rotate(45deg)':'rotate(-45deg)';
+  hdr.innerHTML='<span>'+lbl+'</span>';hdr.appendChild(arrow);
+  var body=document.createElement('div');body.className='day-box-body task-list';
+  body.style.display=isOpen?'block':'none';
+  hdr.addEventListener('click',function(){
+    var h=body.style.display==='none';
+    body.style.display=h?'block':'none';
+    arrow.style.transform=h?'rotate(45deg)':'rotate(-45deg)';
+    dayBoxOpen[lbl]=h;
+  });
+  arr.forEach(function(t){body.appendChild(mkTask(t,bc,bl));});
+  box.appendChild(hdr);box.appendChild(body);panel.appendChild(box);
+}
   var active=tasks.filter(function(t){return t.day==='ongoing';});
     if(active.length){
       var actBox=document.createElement('div');actBox.className='day-box';
@@ -767,8 +834,8 @@ function renderDay(){
       var actTitle=document.createElement('span');actTitle.textContent='Active Tasks';
       var actArrow=document.createElement('span');actArrow.className='day-box-arrow';actArrow.style.transform='rotate(-45deg)';
       actHdr.appendChild(actTitle);actHdr.appendChild(actArrow);
-      var actBody=document.createElement('div');actBody.className='day-box-body task-list';actBody.style.display='none';
-      actHdr.addEventListener('click',function(){var h=actBody.style.display==='none';actBody.style.display=h?'block':'none';actArrow.style.transform=h?'rotate(45deg)':'rotate(-45deg)';});
+      var actBody=document.createElement('div');actBody.className='day-box-body task-list';var actOpen=dayBoxOpen['Active Tasks']===true;actBody.style.display=actOpen?'block':'none';actArrow.style.transform=actOpen?'rotate(45deg)':'rotate(-45deg)';
+      actHdr.addEventListener('click',function(){var h=actBody.style.display==='none';actBody.style.display=h?'block':'none';actArrow.style.transform=h?'rotate(45deg)':'rotate(-45deg)';dayBoxOpen['Active Tasks']=h;});
       active.forEach(function(t){actBody.appendChild(mkTask(t,'badge-active','ACTIVE'));});
       actBox.appendChild(actHdr);actBox.appendChild(actBody);panel.appendChild(actBox);
     }
@@ -808,19 +875,11 @@ function updateChips(){var el=get('chips');el.innerHTML='';var groups=[{l:'Morni
 function renderOG(){var el=get('og-list');el.innerHTML='';tasks.filter(function(t){return t.day==='ongoing';}).forEach(function(t){var e=mkTask(t,'badge-active','ACTIVE');e.setAttribute('data-tid',t.id);setupDrag(e,'og-list');el.appendChild(e);});if(reorderActive['og-list'])el.classList.add('reorder-mode');}
 function renderAN(){var el=get('an-list');el.innerHTML='';tasks.filter(function(t){return t.day==='asneeded';}).slice().sort(function(a,b){if(!a.dl&&!b.dl)return 0;if(!a.dl)return 1;if(!b.dl)return-1;return a.dl<b.dl?-1:1;}).forEach(function(t){var wrap=mkTask(t,'badge-asneeded','WHEN TIME ALLOWS');wrap.setAttribute('data-tid',t.id);setupDrag(wrap,'an-list');el.appendChild(wrap);});if(reorderActive['an-list'])el.classList.add('reorder-mode');}
 
-function openInject(){var d=new Date();d.setDate(d.getDate()+(7-d.getDay()));get('inj-date').value=d.toISOString().split('T')[0];get('inj-modal').classList.add('open');}
-function closeInject(){get('inj-modal').classList.remove('open');}
-function confirmInject(){var name=get('inj-name').value.trim();if(!name)return;tasks.push({id:'i'+Date.now(),name:name,day:'ongoing',sec:'ongoing',done:false,meta:get('inj-notes').value.trim(),dl:get('inj-date').value||null});saveTasks();renderOG();get('inj-name').value='';get('inj-notes').value='';closeInject();}
-
-function openReview(){var c=get('rev-content');c.innerHTML='';[{l:'Morning',f:function(t){return t.day==='all'&&t.sec==='morning';}},{l:'PC Desk',f:function(t){return t.day==='all'&&t.sec==='pc';}},{l:'Monday',f:function(t){return t.day==='1'&&t.sec==='special';}},{l:'Wednesday',f:function(t){return t.day==='3'&&t.sec==='special';}},{l:'Thursday',f:function(t){return t.day==='4'&&t.sec==='special';}},{l:'Active',f:function(t){return t.day==='ongoing';}},{l:'When Time Allows',f:function(t){return t.day==='asneeded';}}].forEach(function(s){var arr=tasks.filter(s.f);if(!arr.length)return;var done=arr.filter(function(t){return t.done;}).length;var d=document.createElement('div');d.style.marginBottom='14px';d.innerHTML='<div style="font-size:13px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding-bottom:5px;border-bottom:2px solid var(--bdr);margin-bottom:6px;">'+s.l+' &mdash; '+done+'/'+arr.length+'</div>';arr.forEach(function(t){var i=document.createElement('div');i.style.cssText='display:flex;align-items:center;gap:8px;padding:4px 0;font-size:14px;border-bottom:1px solid #eee;';i.innerHTML='<span style="font-size:16px;">'+(t.done?'&#9989;':'&#9744;')+'</span><span>'+t.name+'</span>';d.appendChild(i);});c.appendChild(d);});get('rev-modal').classList.add('open');}
-function closeReview(){get('rev-modal').classList.remove('open');}
-function resetWeek(){if(!confirm('Reset all task checkboxes?'))return;tasks=tasks.map(function(t){return Object.assign({},t,{done:false});});saveTasks();render();closeReview();}
-
 // MEETINGS
 var MK='gc_mtg',meetings;try{var _m=JSON.parse(localStorage.getItem(MK));meetings=(_m&&_m.length)?_m:[{id:'mt1',name:'1-on-1 with GM',day:'2',time:'14:00',note:'Weekly check-in'}];}catch(e){meetings=[{id:'mt1',name:'1-on-1 with GM',day:'2',time:'14:00',note:'Weekly check-in'}];}
 function saveMtg(){try{localStorage.setItem(MK,JSON.stringify(meetings));}catch(e){}}
-function renderMtg(){var el=get('mtg-list');el.innerHTML='';meetings.slice().sort(function(a,b){var ad=a.day==='once'?99:(+a.day-DOW+7)%7,bd=b.day==='once'?99:(+b.day-DOW+7)%7;return ad!==bd?ad-bd:(a.time||'')<(b.time||'')?-1:1;}).forEach(function(m){var isT=m.day!=='once'&&+m.day===DOW;var div=document.createElement('div');div.className='mtg-item'+(isT?' today-mtg':'');var dayLbl=m.day==='once'?'ONE-TIME':DAY[+m.day].slice(0,3).toUpperCase();div.innerHTML='<span class="mtg-day-tag'+(isT?' today-tag':'')+'">'+dayLbl+'</span><span class="mtg-time">'+fmt12(m.time)+'</span><div class="mtg-info"><div class="mtg-name">'+m.name+'</div>'+(m.note?'<div class="mtg-note">'+m.note+'</div>':'')+' </div>'+(isT?'<span style="font-size:11px;font-weight:700;padding:2px 7px;border:2px solid var(--ok);color:var(--ok);">TODAY</span>':'')+' <button class="task-del" data-mid="'+m.id+'">&#10005;</button>';div.querySelector('[data-mid]').addEventListener('click',function(){meetings=meetings.filter(function(x){return x.id!==m.id;});saveMtg();renderMtg();updateTicker();});get('mtg-list').appendChild(div);});}
-function addMeeting(){var name=get('nm-name').value.trim();if(!name)return;meetings.push({id:'mt'+Date.now(),name:name,day:get('nm-day').value,time:get('nm-time').value,note:get('nm-note').value.trim()});saveMtg();renderMtg();updateTicker();get('nm-name').value='';get('nm-time').value='';get('nm-note').value='';}
+function renderMtg(){var el=get('mtg-list');el.innerHTML='';meetings.slice().sort(function(a,b){var ad=a.day==='once'?99:(+a.day-DOW+7)%7,bd=b.day==='once'?99:(+b.day-DOW+7)%7;return ad!==bd?ad-bd:(a.time||'')<(b.time||'')?-1:1;}).forEach(function(m){var isT=m.day!=='once'&&+m.day===DOW;var div=document.createElement('div');div.className='mtg-item'+(isT?' today-mtg':'');var dayLbl=m.day==='once'?'ONE-TIME':DAY[+m.day].slice(0,3).toUpperCase();div.innerHTML='<span class="mtg-day-tag'+(isT?' today-tag':'')+'">'+dayLbl+'</span><span class="mtg-time">'+fmt12(m.time)+'</span><div class="mtg-info"><div class="mtg-name">'+m.name+'</div>'+(m.note?'<div class="mtg-note">'+m.note+'</div>':'')+' </div>'+(isT?'<span style="font-size:11px;font-weight:700;padding:2px 7px;border:2px solid var(--ok);color:var(--ok);">TODAY</span>':'')+' <button class="task-del" data-mid="'+m.id+'">&#10005;</button>';div.querySelector('[data-mid]').addEventListener('click',function(){meetings=meetings.filter(function(x){return x.id!==m.id;});saveMtg();renderMtg();});get('mtg-list').appendChild(div);});}
+function addMeeting(){var name=get('nm-name').value.trim();if(!name)return;meetings.push({id:'mt'+Date.now(),name:name,day:get('nm-day').value,time:get('nm-time').value,note:get('nm-note').value.trim()});saveMtg();renderMtg();get('nm-name').value='';get('nm-time').value='';get('nm-note').value='';}
 get('nm-name').addEventListener('keydown',function(e){if(e.key==='Enter')addMeeting();});
 
 // PAID OUT
@@ -856,10 +915,11 @@ function addScratch(){var inp=get('scratch-inp'),text=inp.value.trim();if(!text)
 get('scratch-inp').addEventListener('keydown',function(e){if(e.key==='Enter')addScratch();});
 
 // TICKER
-function updateTicker(){var n=new Date(),h=n.getHours(),m=n.getMinutes(),tot=h*60+m,dow=n.getDay(),evts=[],op=660,cl=1260;if(tot<op){var toOp=op-tot;evts.push({l:'STORE OPENS',d:'in '+(toOp>=60?Math.floor(toOp/60)+'h '+(toOp%60?toOp%60+'m':''):''+toOp+'m'),mins:toOp});}else if(tot<cl){var left2=cl-tot;evts.push({l:'STORE CLOSES',d:'in '+(left2>=60?Math.floor(left2/60)+'h '+(left2%60?left2%60+'m':''):''+left2+'m'),mins:left2});}else{evts.push({l:'STORE',d:'Opens tomorrow 11:00 AM',mins:9999});}meetings.forEach(function(mt){if(!mt.time)return;var p=mt.time.split(':'),mh=parseInt(p[0]),mm2=parseInt(p[1]),mMins=mh*60+mm2,mDow=mt.day==='once'?-1:+mt.day,dU=mDow<0?0:(mDow-dow+7)%7,until=dU*1440+(mMins-tot);if(until<0)until+=7*1440;evts.push({l:mt.name.toUpperCase(),d:(dU===0?(until<60?'in '+until+'m':'today '+fmt12(mt.time)):DAY[mDow]+' '+fmt12(mt.time)),mins:until});});evts.sort(function(a,b){return a.mins-b.mins;});var txt=evts.map(function(e){return e.l+' * '+e.d;}).join('     *     ');var _ti=get('ticker-inner');if(_ti)_ti.textContent=txt+'     *     '+txt+'     *     '+txt;}
-
 // MASTER RENDER
-function render(){buildTabs();renderDay();renderOG();renderAN();updateProg();updateChips();}
+var dayBoxOpen={};
+function render(){
+  buildTabs();renderDay();renderOG();renderAN();updateProg();updateChips();
+}
 
 // EXPORT/IMPORT
 function openBackup(){get('bak-modal').classList.add('open');}function closeBackup(){get('bak-modal').classList.remove('open');}
@@ -871,25 +931,12 @@ var LOG_KEY='gc_log',actLog;try{actLog=JSON.parse(localStorage.getItem(LOG_KEY))
 function saveLog(){try{localStorage.setItem(LOG_KEY,JSON.stringify(actLog));}catch(e){}}
 function logTask(task,done){var now=new Date();actLog.unshift({id:'l'+Date.now(),task:task.name,action:done?'completed':'unchecked',date:now.toLocaleDateString([],{weekday:'short',month:'short',day:'numeric'}),time:now.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}),week:'Week of '+new Date(now.getTime()-((now.getDay()-1)*86400000)).toLocaleDateString([],{month:'short',day:'numeric'})});if(actLog.length>500)actLog=actLog.slice(0,500);saveLog();renderLog();}
 function renderLog(){var el=get('log-list');if(!el)return;el.innerHTML='';if(!actLog.length){el.innerHTML='<div style="font-size:14px;color:var(--grey);padding:8px 0;">No activity yet.</div>';return;}var lw='';actLog.forEach(function(e){if(e.week!==lw){var wh=document.createElement('div');wh.className='log-week';wh.textContent=e.week;el.appendChild(wh);lw=e.week;}var row=document.createElement('div');row.className='log-entry';row.innerHTML='<span style="font-size:16px;">'+(e.action==='completed'?'&#9989;':'&#9744;')+'</span><div style="flex:1;"><div style="font-weight:600;font-size:14px;">'+e.task+'</div><div style="font-size:12px;color:var(--grey);">'+e.date+' at '+e.time+'</div></div><span class="log-action '+(e.action==='completed'?'log-done':'log-undone')+'">'+e.action.toUpperCase()+'</span>';el.appendChild(row);});}
-function clearLog(){if(!confirm('Clear entire activity log?'))return;actLog=[];saveLog();renderLog();}
-function exportLog(){var lines=['GC OPS - ACTIVITY LOG','Exported: '+new Date().toLocaleString(),''],lw='';actLog.forEach(function(e){if(e.week!==lw){lines.push('-- '+e.week+' --');lw=e.week;}lines.push((e.action==='completed'?'[DONE]  ':'[UNDO]  ')+e.task+' - '+e.date+' '+e.time);});var blob=new Blob([lines.join('\n')],{type:'text/plain'});var url=URL.createObjectURL(blob);var a=document.createElement('a');a.href=url;a.download='gc-ops-log-'+TODAY+'.txt';a.click();URL.revokeObjectURL(url);}
-
 // PHOTOS
 var PHOTO_KEY='gc_photos',photos;try{photos=JSON.parse(localStorage.getItem(PHOTO_KEY))||[];}catch(e){photos=[];}
 function savePhotos(){try{localStorage.setItem(PHOTO_KEY,JSON.stringify(photos));}catch(e){showToast('Storage full - delete some photos','err');}}
 var selPhotoCat='Street Buy';
-function selectPhotoCat(btn){document.querySelectorAll('.tag-btns .tag-btn').forEach(function(b){b.classList.remove('active');});btn.classList.add('active');selPhotoCat=btn.dataset.cat;}
-function addPhoto(){var input=get('photo-input'),file=input.files[0];if(!file)return;var note=get('photo-note').value.trim();var reader=new FileReader();reader.onload=function(e){var now=new Date(),id='ph'+Date.now();photos.unshift({id:id,cat:selPhotoCat,note:note,date:now.toLocaleDateString([],{month:'short',day:'numeric',year:'numeric'})+' '+now.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}),img:e.target.result});savePhotos();renderPhotos();get('photo-note').value='';input.value='';showToast('Photo saved!','ok');};reader.readAsDataURL(file);}
-function deletePhoto(id){if(!confirm('Delete this photo?'))return;photos=photos.filter(function(p){return p.id!==id;});savePhotos();renderPhotos();closeLightbox();}
-function openLightbox(id){if(!get('lb-overlay'))return;var p=photos.find(function(x){return x.id===id;});if(!p)return;get('lb-img').src=p.img;get('lb-cat').textContent=p.cat;get('lb-note').textContent=p.note||'';get('lb-date').textContent=p.date;get('lb-id').value=id;Array.from(get('lb-cat-sel').options).forEach(function(o){o.selected=o.value===p.cat;});get('lb-note-inp').value=p.note||'';get('lb-retag').style.display='none';get('lb-overlay').classList.add('open');}
-function closeLightbox(){get('lb-overlay').classList.remove('open');get('lb-img').src='';}
-function toggleLbRetag(){var r=get('lb-retag');r.style.display=r.style.display==='none'?'block':'none';}
-function saveRetag(){var id=get('lb-id').value,newCat=get('lb-cat-sel').value,newNote=get('lb-note-inp').value.trim();photos=photos.map(function(p){return p.id===id?Object.assign({},p,{cat:newCat,note:newNote}):p;});savePhotos();renderPhotos();get('lb-cat').textContent=newCat;get('lb-note').textContent=newNote;get('lb-retag').style.display='none';showToast('Updated!','ok');}
-function renderPhotos(){var el=get('photo-grid');el.innerHTML='';if(!photos.length){el.innerHTML='<div style="font-size:14px;color:var(--grey);padding:8px 0;grid-column:span 2;">No photos yet.</div>';return;}photos.forEach(function(p){var div=document.createElement('div');div.className='photo-item';div.innerHTML='<img src="'+p.img+'" alt="'+p.cat+'" style="cursor:pointer;" /><div class="photo-item-info"><span class="photo-cat-tag">'+p.cat+'</span>'+(p.note?'<div class="photo-item-note">'+p.note+'</div>':'')+'<div class="photo-item-date">'+p.date+'</div></div><button class="photo-del-btn" data-pid="'+p.id+'">&#10005;</button>';div.querySelector('img').addEventListener('click',function(){openLightbox(p.id);});div.querySelector('[data-pid]').addEventListener('click',function(e){e.stopPropagation();deletePhoto(p.id);});el.appendChild(div);});}
-
 // DRAG REORDER
 var reorderActive={},dragSrc=null;
-function toggleReorder(listId){reorderActive[listId]=!reorderActive[listId];var list=get(listId);if(!list)return;list.classList.toggle('reorder-mode',reorderActive[listId]);Array.from(list.children).forEach(function(el){el.setAttribute('draggable',reorderActive[listId]?'true':'false');});showToast(reorderActive[listId]?'Reorder mode ON - drag to reorder':'Reorder saved','ok');}
 function setupDrag(el,listId){el.addEventListener('dragstart',function(e){dragSrc=el;e.dataTransfer.effectAllowed='move';setTimeout(function(){el.classList.add('dragging');},0);});el.addEventListener('dragend',function(){el.classList.remove('dragging');document.querySelectorAll('.drag-over').forEach(function(x){x.classList.remove('drag-over');});saveReorderedTasks(listId);});el.addEventListener('dragover',function(e){e.preventDefault();if(dragSrc&&dragSrc!==el)el.classList.add('drag-over');});el.addEventListener('dragleave',function(){el.classList.remove('drag-over');});el.addEventListener('drop',function(e){e.preventDefault();el.classList.remove('drag-over');if(!dragSrc||dragSrc===el)return;var list=get(listId),kids=Array.from(list.children),fi=kids.indexOf(dragSrc),ti=kids.indexOf(el);if(fi<ti)list.insertBefore(dragSrc,el.nextSibling);else list.insertBefore(dragSrc,el);});el.addEventListener('touchstart',function(e){if(!reorderActive[listId])return;dragSrc=el;el.classList.add('dragging');},{passive:true});el.addEventListener('touchmove',function(e){if(!reorderActive[listId]||!dragSrc)return;e.preventDefault();var touch=e.touches[0],list=get(listId),kids=Array.from(list.children),target=null;kids.forEach(function(k){var r=k.getBoundingClientRect();if(touch.clientY>=r.top&&touch.clientY<=r.bottom)target=k;});if(target&&target!==dragSrc){document.querySelectorAll('.drag-over').forEach(function(x){x.classList.remove('drag-over');});target.classList.add('drag-over');var fi=kids.indexOf(dragSrc),ti=kids.indexOf(target);if(fi<ti)list.insertBefore(dragSrc,target.nextSibling);else list.insertBefore(dragSrc,target);}},{passive:false});el.addEventListener('touchend',function(){if(!reorderActive[listId])return;el.classList.remove('dragging');document.querySelectorAll('.drag-over').forEach(function(x){x.classList.remove('drag-over');});saveReorderedTasks(listId);dragSrc=null;});}
 function saveReorderedTasks(listId){var list=get(listId);if(!list)return;var newOrder=Array.from(list.children).map(function(el){return el.getAttribute('data-tid');}).filter(Boolean);if(!newOrder.length)return;var isOg=listId==='og-list',isAn=listId==='an-list';function mF(t){if(isOg)return t.day==='ongoing';if(isAn)return t.day==='asneeded';return false;}var filtered=tasks.filter(mF),rest=tasks.filter(function(t){return!mF(t);}),reordered=[];newOrder.forEach(function(id){var t=filtered.find(function(x){return x.id===id;});if(t)reordered.push(t);});filtered.forEach(function(t){if(!reordered.includes(t))reordered.push(t);});tasks=rest.concat(reordered);saveTasks();}
 
@@ -912,16 +959,16 @@ get('cl-name').addEventListener('keydown',function(e){if(e.key==='Enter')addCust
 
 // SUPPLY HELPERS
 function exportReceiptsLog(){if(!po.entries.length){alert('No receipts to export.');return;}var lines=['GC OPS - RECEIPT LOG','Exported: '+new Date().toLocaleString(),''],tot=0;po.entries.forEach(function(e){lines.push(e.date+' | '+e.desc+' | $'+parseFloat(e.amt).toFixed(2));tot+=parseFloat(e.amt)||0;});lines.push('','TOTAL: $'+tot.toFixed(2));var blob=new Blob([lines.join('\n')],{type:'text/plain'});var url=URL.createObjectURL(blob);var a=document.createElement('a');a.href=url;a.download='gc-receipts-'+TODAY+'.txt';a.click();URL.revokeObjectURL(url);}
-function clearReceiptsWithBackup(){if(!po.entries.length){alert('Already empty.');return;}if(confirm('Export before clearing?'))exportReceiptsLog();setTimeout(function(){if(confirm('Clear all receipts?')){po={month:null,entries:[]};savePO();renderPO();}},500);}
 function exportSupplyList(){if(!supplies.length){alert('Supply list is empty.');return;}var lines=['GC OPS - SUPPLY LIST','Exported: '+new Date().toLocaleString(),''];supplies.forEach(function(s){lines.push((s.ordered?'[ORDERED] ':'[NEEDED]  ')+s.name+(s.note?' - '+s.note:''));});var blob=new Blob([lines.join('\n')],{type:'text/plain'});var url=URL.createObjectURL(blob);var a=document.createElement('a');a.href=url;a.download='gc-supply-list-'+TODAY+'.txt';a.click();URL.revokeObjectURL(url);}
-function clearSupplyWithBackup(){if(!supplies.length){alert('Already empty.');return;}if(confirm('Export before clearing?'))exportSupplyList();setTimeout(function(){if(confirm('Clear entire supply list?')){supplies=[];saveSup();renderSup();}},500);}
-
 // ===============================
 // CASE PICKLIST
 // ===============================
 var PL_KEY='gc_picklist',plChecked,plHistory;
 try{var _plR=JSON.parse(localStorage.getItem(PL_KEY));plChecked=new Set(_plR?_plR.checked:[]);plHistory=_plR?_plR.history:[];}catch(e){plChecked=new Set();plHistory=[];}
 function savePL(){try{localStorage.setItem(PL_KEY,JSON.stringify({checked:Array.from(plChecked),history:plHistory}));}catch(e){}}
+  var plDrillCat=null,plDrillType=null,plDrillBrand=null;
+  var plTypeColors={'Cases':'#1e40af','Gig Bags':'#047857','Bags in Box':'#b45309','Banjo':'#7c3aed','Ukulele':'#db2777','Other':'#4b5563'};
+  var plBrandColors={'Road Runner':'#e8322a','Gator':'#1d4ed8','Fender':'#b45309','Coffin Case':'#7c3aed'};
 var PL_NO_IMG="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='280' height='160'%3E%3Crect width='280' height='160' fill='%23f3f2f1'/%3E%3Ctext x='140' y='85' text-anchor='middle' fill='%23b1b4b6' font-size='14' font-family='arial'%3ENo Image%3C/text%3E%3C/svg%3E";
 var plInv=[
   {pos:"115416695",model:"",name:"Acoustic Guitar Gig Bag in a Box - Black",category:"Acoustic",brand:"Road Runner",type:"Bags in Box"},
@@ -979,47 +1026,76 @@ var plInv=[
 ];
 var plFilter='';
 function plSearch(){plFilter=get('pl-search').value.toLowerCase();plRender();}
-function togglePlPanel(){get('pl-panel').classList.toggle('open');}
 function plToggle(pos){if(plChecked.has(pos)){plChecked.delete(pos);var i=plHistory.indexOf(pos);if(i>-1)plHistory.splice(i,1);}else{plChecked.add(pos);plHistory.push(pos);}savePL();plRender();plUpdateUndo();}
 function plUndo(){if(!plHistory.length)return;var last=plHistory.pop();plChecked.delete(last);savePL();plRender();plUpdateUndo();}
 function plClear(){plChecked.clear();plHistory=[];savePL();plRender();plUpdateUndo();showToast('Picklist reset','ok');}
 function plUpdateUndo(){var btn=get('pl-undo-btn');if(!btn)return;btn.disabled=!plHistory.length;}
-function plGetImg(pos){return(typeof GC_IMAGES!=='undefined'&&GC_IMAGES[pos])?GC_IMAGES[pos]:PL_NO_IMG;}
-function sharePicklist(){
-  var found=plInv.filter(function(i){return plChecked.has(i.pos);});
-  var notFound=plInv.filter(function(i){return!plChecked.has(i.pos);});
-  var lines=[];
-  lines.push('GC Case Picklist  -  '+new Date().toLocaleDateString([],{weekday:'long',month:'long',day:'numeric'}));
-  lines.push('Store #793 Naples, FL');
-  lines.push('');
-  if(notFound.length){
-    lines.push('STILL NEED TO FIND ('+notFound.length+' items):');
-    lines.push('');
-    // Group by category
+function buildDrillDown(){
+    var s1=get('pl-step1');if(!s1)return;s1.innerHTML='';
     var cats=['Acoustic','Electric','Bass','Classical','Specialty'];
+    var catColors={Acoustic:'#1e40af',Electric:'#047857',Bass:'#b45309',Classical:'#7c3aed',Specialty:'#db2777'};
     cats.forEach(function(cat){
-      var items=notFound.filter(function(i){return i.category===cat;});
-      if(!items.length)return;
-      lines.push('[ '+cat.toUpperCase()+' ]');
-      items.forEach(function(i){
-        lines.push('  SKU: '+i.pos+(i.model?' ('+i.model+')':'')+'  -  '+i.name);
+      var btn=document.createElement('button');
+      btn.className='pl-drill-btn'+(plDrillCat===cat?' active':'');
+      if(plDrillCat===cat){btn.style.background=catColors[cat];btn.style.borderColor=catColors[cat];btn.style.color='white';}
+      btn.textContent=cat;
+      btn.addEventListener('click',function(e){e.stopPropagation();
+        plDrillCat=(plDrillCat===cat)?null:cat;plDrillType=null;plDrillBrand=null;
+        buildDrillDown();plRender();
       });
-      lines.push('');
+      s1.appendChild(btn);
     });
+    var s2w=get('pl-step2-wrap');
+    if(plDrillCat){
+      s2w.style.display='block';
+      var s2=get('pl-step2');s2.innerHTML='';
+      var catTypes={Acoustic:['Cases','Gig Bags','Bags in Box'],Electric:['Cases','Gig Bags','Bags in Box'],Bass:['Cases','Gig Bags','Bags in Box'],Classical:['Cases','Gig Bags'],Specialty:['Banjo','Ukulele','Other']};
+      var allBtn=document.createElement('button');allBtn.className='pl-drill-btn pl-all';allBtn.textContent='All';
+      allBtn.style.cssText=plDrillType===null?'background:var(--txt);border-color:var(--txt);color:white;':'';
+      allBtn.addEventListener('click',function(e){e.stopPropagation();plDrillType=null;plDrillBrand=null;buildDrillDown();plRender();});
+      s2.appendChild(allBtn);
+      (catTypes[plDrillCat]||[]).forEach(function(type){
+        var btn=document.createElement('button');
+        btn.className='pl-drill-btn';
+        if(plDrillType===type){btn.style.background=plTypeColors[type]||'#4b5563';btn.style.borderColor=btn.style.background;btn.style.color='white';}
+        btn.textContent=type;
+        btn.addEventListener('click',function(e){e.stopPropagation();
+          plDrillType=(plDrillType===type)?null:type;plDrillBrand=null;
+          buildDrillDown();plRender();
+        });
+        s2.appendChild(btn);
+      });
+    } else {s2w.style.display='none';}
+    var s3w=get('pl-step3-wrap');
+    if(plDrillCat&&plDrillType){
+      s3w.style.display='block';
+      var s3=get('pl-step3');s3.innerHTML='';
+      var availBrands=plInv.filter(function(i){return i.category===plDrillCat&&i.type===plDrillType;}).map(function(i){return i.brand;}).filter(function(v,i,a){return a.indexOf(v)===i;});
+      var allB=document.createElement('button');allB.className='pl-drill-btn pl-all';allB.textContent='All';
+      allB.style.cssText=plDrillBrand===null?'background:var(--txt);border-color:var(--txt);color:white;':'';
+      allB.addEventListener('click',function(e){e.stopPropagation();plDrillBrand=null;buildDrillDown();plRender();});
+      s3.appendChild(allB);
+      availBrands.forEach(function(brand){
+        var btn=document.createElement('button');
+        btn.className='pl-drill-btn';
+        if(plDrillBrand===brand){btn.style.background=plBrandColors[brand]||'#0b0c0c';btn.style.borderColor=btn.style.background;btn.style.color='white';}
+        btn.textContent=brand;
+        btn.addEventListener('click',function(e){e.stopPropagation();
+          plDrillBrand=(plDrillBrand===brand)?null:brand;
+          buildDrillDown();plRender();
+        });
+        s3.appendChild(btn);
+      });
+    } else {s3w.style.display='none';}
   }
-  if(found.length){
-    lines.push('FOUND ON FLOOR ('+found.length+' items):');
-    found.forEach(function(i){lines.push('  '+i.pos+'  -  '+i.name);});
-    lines.push('');
-  }
-  lines.push('Total: '+plInv.length+' items | Found: '+found.length+' | Still needed: '+notFound.length);
-  var body=lines.join('\n');
-  var subject='GC Case Picklist  -  Store #793  -  '+new Date().toLocaleDateString();
-  var mailto='mailto:?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(body);
-  if(navigator.share){navigator.share({title:subject,text:body}).catch(function(){});}else{window.location.href=mailto;}
-}
-function plRender(){
-  var filtered=plInv.filter(function(item){if(!plFilter)return true;return item.name.toLowerCase().indexOf(plFilter)>-1||item.pos.indexOf(plFilter)>-1||item.brand.toLowerCase().indexOf(plFilter)>-1||item.category.toLowerCase().indexOf(plFilter)>-1||item.model.toLowerCase().indexOf(plFilter)>-1||item.type.toLowerCase().indexOf(plFilter)>-1;});
+  function plRender(){
+  var filtered=plInv.filter(function(item){
+    if(plFilter&&!(item.name.toLowerCase().indexOf(plFilter)>-1||item.pos.indexOf(plFilter)>-1||item.brand.toLowerCase().indexOf(plFilter)>-1||item.category.toLowerCase().indexOf(plFilter)>-1||item.model.toLowerCase().indexOf(plFilter)>-1||item.type.toLowerCase().indexOf(plFilter)>-1))return false;
+    if(plDrillCat&&item.category!==plDrillCat)return false;
+    if(plDrillType&&item.type!==plDrillType)return false;
+    if(plDrillBrand&&item.brand!==plDrillBrand)return false;
+    return true;
+  });
   var unchecked=filtered.filter(function(i){return!plChecked.has(i.pos);});
   var checked=filtered.filter(function(i){return plChecked.has(i.pos);});
   get('pl-total').textContent=plInv.length;
@@ -1045,8 +1121,6 @@ function plRender(){
   var ng=get('pl-need-grid');ng.innerHTML='';
   var fg=get('pl-found-grid');fg.innerHTML='';
 
-  var plTypeColors={'Cases':'#1e40af','Gig Bags':'#047857','Bags in Box':'#b45309','Banjo':'#7c3aed','Ukulele':'#db2777','Other':'#4b5563'};
-  var plBrandColors={'Road Runner':'#e8322a','Gator':'#1d4ed8','Fender':'#b45309','Coffin Case':'#7c3aed'};
   var plImgVisible=false;
   function showPlImg(pos,name){
     var popup=get('pl-img-popup'),img=get('pl-img-popup-img'),label=get('pl-img-popup-label');
@@ -1143,11 +1217,18 @@ function plRender(){
 document.addEventListener('keydown',function(e){if(e.key==='z'&&(e.ctrlKey||e.metaKey)){e.preventDefault();plUndo();}});
 
 // INIT
+// Force Tasks section open before first render
+(function(){
+  var b=get('sec-today-body')||document.querySelector('#sec-today .section-body');
+  if(b)b.style.display='block';
+  var s=get('sec-today');
+  if(s)s.classList.remove('collapsed');
+})();
 render();
 renderMtg();renderPO();renderPOP();renderSup();renderScratch();renderLog();renderCustomLinks();
-if(typeof plRender==='function'){plRender();plUpdateUndo();}
+if(typeof plRender==='function'){buildDrillDown();plRender();plUpdateUndo();}
 tick();setInterval(tick,30000);
-updateTicker();setInterval(updateTicker,60000);
+
 </script>
 
 
